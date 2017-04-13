@@ -19,14 +19,32 @@ function RadialMenuItem(parent, text) {
 }
 
 RadialMenuItem.prototype.createStructure = function (parent) {
+
   parent.menu.appendChild(this.li);
   this.li.appendChild(this.menu);
 }
 
 RadialMenuItem.prototype.add = function (text='item-inner') {
+  this.li.onclick = function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    this.classList.toggle('open-item');
+  };
   return new RadialMenuItem(this, text);
 }
 
+// RadialMenu.prototype.initialMenuState = function () {
+//
+// }
+
 let generalMenu = new RadialMenu();
-let newItem1 = generalMenu.add('внешний');
-let newItem11 = newItem1.add('внутренний');
+let newItem1 = generalMenu.add('внешний1');
+let newItem11 = newItem1.add('внутренний1');
+let newItem111 = newItem11.add('внутренний2');
+let newItem1111 = newItem111.add('внутренний3');
+
+let newItem2 = generalMenu.add('внешний2');
+let newItem22 = newItem2.add('внутренний2');
+let newItem222 = newItem22.add('внутренний3');
+let newItem2222 = newItem222.add('внутренний4');
