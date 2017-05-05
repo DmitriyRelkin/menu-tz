@@ -1,9 +1,24 @@
 function RadialMenu(styles={}) {
     let {borderColor, borderWith} = styles;
     this.menu = document.createElement('ul');
+
+    this.btnOpen = document.createElement('button');
+    this.btnOpen.classList.add('btnOpen');
+    this.btnOpen.innerHTML="open child";
+    this.btnOpen.onclick = this.children;
+
+    this.btnClose = document.createElement('button');
+    this.btnClose.classList.add('btnClose');
+    this.btnClose.innerHTML="close child";
+    this.btnClose.onclick = this.close;
+
     this.menu.classList.add('radial-menu');
     this.menu.style.border = `${borderWith}`+'px solid '+`${borderColor}`;
+
     document.body.appendChild(this.menu);
+    document.body.appendChild(this.btnOpen);
+    document.body.appendChild(this.btnClose);
+
     return this;
 }
 
@@ -12,8 +27,23 @@ RadialMenu.prototype.add = function(text='item', styles={}) {
   return new RadialMenuItem(this, text, styles);
 };
 
+RadialMenu.prototype.children = function () {
+  this.li = document.querySelectorAll('.inner-menu-item');
+  for (var i = 0; i < this.li.length; i++) {
+    this.li[i].classList.add('open-item');
+  }
+}
+
+RadialMenu.prototype.close = function () {
+  this.li = document.querySelectorAll('.inner-menu-item');
+  for (var i = 0; i < this.li.length; i++) {
+    this.li[i].classList.remove('open-item');
+  }
+}
+
 //finction for create main structure
 function RadialMenuItem(parent, text, styles={}) {
+  let that = this;
   this.style = styles;
   this.li = document.createElement('li');
   let {borderColor, borderWith, background} = this.style;
@@ -34,10 +64,41 @@ RadialMenuItem.prototype.createStructure = function (parent) {
   this.li.appendChild(this.menu);
 }
 
+RadialMenuItem.prototype.createStructure = function (parent) {
+  this.controlMenuItems();
+  parent.menu.appendChild(this.li);
+  this.li.appendChild(this.menu);
+}
+
 //function aded item child item
 RadialMenuItem.prototype.add = function (text='item-inner', styles={}) {
   return new RadialMenuItem(this, text, styles);
 }
+
+RadialMenuItem.prototype.close = function () {
+  let openItems = document.querySelectorAll('.open-item');
+  for(var i = 0; i < openItems.length; i++) {
+    if(openItems[i] == this.li) {
+      let nextItems = i;
+      for (var i = nextItems; i < openItems.length; i++) {
+        openItems[i].classList.remove('open-item');
+      }
+    }
+  }
+}
+
+RadialMenuItem.prototype.open = function () {
+  let openItems = document.querySelectorAll('.inner-menu-item');
+  for(var i = 0; i < openItems.length; i++) {
+    if(openItems[i] == this.li) {
+      let nextItems = i;
+      for (var i = nextItems; i < openItems.length; i++) {
+        openItems[i].classList.add('open-item');
+      }
+    }
+  }
+}
+
 
 //function for control items menu
 RadialMenuItem.prototype.controlMenuItems = function () {
@@ -86,6 +147,7 @@ let newItem111 = newItem11.add('внутренний-2', {
   borderColor:'orange',
   background:'green'
 });
+
 let newItem1111 = newItem111.add('внутренний-3', {
   borderWith:1,
   borderColor:'red',
@@ -93,20 +155,19 @@ let newItem1111 = newItem111.add('внутренний-3', {
 });
 let newItem11111 = newItem1111.add('внутренний-4');
 let newItem111111 = newItem11111.add('внутренний-5');
-
 let newItem2 = generalMenu.add('внешний-2', {
   borderWith:1,
   borderColor:'red',
   background:'#b8b8ff'
 });
-let newItem22 = newItem2.add('внутренний-2');
-let newItem222 = newItem22.add('внутренний-3');
-let newItem2222 = newItem222.add('внутренний-4');
 
-let newItem3 = generalMenu.add('внешний-3', {
-  borderWith:1,
-  borderColor:'red',
-  background:'chartreuse'
+let buttonCloseChilds = document.querySelector('.closeChilds');
+let openCloseChilds = document.querySelector('.openChilds');
+
+buttonCloseChilds.addEventListener("click", function () {
+  newItem111.close();
 });
-let newItem33 = newItem3.add('внутренний-5');
-let newItem333 = newItem33.add('внутренний-6');
+
+openCloseChilds.addEventListener("click", function () {
+  newItem111.open();
+});
