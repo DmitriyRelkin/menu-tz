@@ -27,6 +27,7 @@ RadialMenu.prototype.add = function(text='item', styles={}) {
   return new RadialMenuItem(this, text, styles);
 };
 
+//function for close all items
 RadialMenu.prototype.children = function () {
   this.li = document.querySelectorAll('.inner-menu-item');
   for (var i = 0; i < this.li.length; i++) {
@@ -34,6 +35,7 @@ RadialMenu.prototype.children = function () {
   }
 }
 
+//function for open all items
 RadialMenu.prototype.close = function () {
   this.li = document.querySelectorAll('.inner-menu-item');
   for (var i = 0; i < this.li.length; i++) {
@@ -75,6 +77,7 @@ RadialMenuItem.prototype.add = function (text='item-inner', styles={}) {
   return new RadialMenuItem(this, text, styles);
 }
 
+//function for close all child-items
 RadialMenuItem.prototype.close = function () {
   let openItems = document.querySelectorAll('.open-item');
   for(var i = 0; i < openItems.length; i++) {
@@ -87,6 +90,7 @@ RadialMenuItem.prototype.close = function () {
   }
 }
 
+//function for open all child-items
 RadialMenuItem.prototype.open = function () {
   let openItems = document.querySelectorAll('.inner-menu-item');
   for(var i = 0; i < openItems.length; i++) {
