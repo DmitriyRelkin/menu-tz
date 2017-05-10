@@ -161,9 +161,9 @@ let newItem2 = generalMenu.add('внешний-2', {
   background:'#b8b8ff'
 });
 
+//*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 let buttonCloseChilds = document.querySelector('.closeChilds');
 let openCloseChilds = document.querySelector('.openChilds');
-
 buttonCloseChilds.addEventListener("click", function () {
   newItem111.close();
 });
